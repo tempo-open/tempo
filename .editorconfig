@@ -1,0 +1,4 @@
+# tempo: stops editorconfig lookups at Tempo's root, so an `.editorconfig` in a
+# folder above a checkout (one that asks for tabs, say) never reaches `vp fmt`
+# or ktlint. Tempo sets no editor rules of its own here.
+root = true

@@ -1,0 +1,35 @@
+export const THREAD_SIDEBAR_WIDTH_STORAGE_KEY = "chat_thread_sidebar_width";
+const THREAD_SIDEBAR_DEFAULT_WIDTH = 16 * 16;
+// tempo: the tempo look draws the sidebar 280 px wide until it is resized.
+export const TEMPO_THREAD_SIDEBAR_DEFAULT_WIDTH = 280;
+const THREAD_SIDEBAR_MIN_WIDTH = 13 * 16;
+export const THREAD_MAIN_CONTENT_MIN_WIDTH = 40 * 16;
+
+export function resolveThreadSidebarMinimumWidth(brandWidth: number): number {
+  return Math.max(THREAD_SIDEBAR_MIN_WIDTH, Math.ceil(brandWidth));
+}
+
+export function resolveThreadSidebarMaximumWidth(
+  viewportWidth: number,
+  minimumWidth = THREAD_SIDEBAR_MIN_WIDTH,
+): number {
+  return Math.max(minimumWidth, Math.floor(viewportWidth) - THREAD_MAIN_CONTENT_MIN_WIDTH);
+}
+
+export function clampThreadSidebarWidth(
+  width: number,
+  minimumWidth: number,
+  maximumWidth: number,
+): number {
+  return Math.min(maximumWidth, Math.max(minimumWidth, width));
+}
+
+export function resolveInitialThreadSidebarWidth(
+  storedWidth: number | null,
+  viewportWidth: number,
+  defaultWidth = THREAD_SIDEBAR_DEFAULT_WIDTH,
+): number {
+  const preferredWidth =
+    storedWidth === null ? defaultWidth : Math.max(THREAD_SIDEBAR_MIN_WIDTH, storedWidth);
+  return Math.min(preferredWidth, resolveThreadSidebarMaximumWidth(viewportWidth));
+}

@@ -1,0 +1,324 @@
+/*
+ * tempo: the tempo look's palette and type, from the Tempo design mockup. The
+ * mockup's values go onto the stock roles below, so every component picks them up as it is;
+ * a role the stock palette lacks is --tempo-<role>, and the Tailwind color tempo-<role>.
+ *
+ * Stock roles that take a mockup value (mockup name: stock role):
+ *   ink: foreground          ink-2: muted-foreground       ink-3: secondary-label, placeholder
+ *   hair: border             fill: muted, secondary         fill-2: accent (the hover fill)
+ *   card: card, surface-raised (the composer's glass in dark; light reads card)
+ *   bubble: message-surface  composer: popover
+ *   accent-strong: primary   accent: ring, info             send: message-action (the send button)
+ *   amber: warning           plus: success                  minus: error, destructive
+ *   code: code-background    ground: sidebar, app-chrome-background   sheet: background
+ *
+ * New roles (where the mockup draws them):
+ *   ground           the window: title bar, sidebar, and around the sheet
+ *   sheet            the page beside the sidebar; sheet-line is its edge
+ *   ink-4            the faintest ink: a disabled title bar button
+ *   hair-2           the strong hairline: separators, the minimap, thumbnails
+ *   fill-3           the strongest fill: New thread on hover
+ *   accent           blue text and marks: live times, on segments, workflow steps
+ *   accent-soft      the running block of the workflow card
+ *   done             the check on a finished thread not opened since; done-ink is the word beside it
+ *   link             a link in a reply; underline and underline-hover sit under a named thing
+ *   seg-off          the off segment of a segmented bar
+ *   glass            the home widgets and typing bar over the art; glass-line is their edge.
+ *                    The Glass slider sets it: its lowest value, the default, gives the mockup's
+ *                    glass, and 100 makes it solid.
+ *   composer         the typing bar card; composer-line is its edge
+ *   kbd              a key hint
+ *   home-ground      the home page under the art
+ *   shadow-pop       the shadow of a floating panel (a shadow, so shadow-tempo-pop in Tailwind)
+ *
+ * A custom theme (data-theme-id) keeps its own colors; the new roles then follow its roles.
+ * Numbers set in tabular figures (the mockup's .tn) take Tailwind's tabular-nums.
+ */
+
+html[data-look="tempo"] {
+  --tempo-ground: var(--app-chrome-background);
+  --tempo-sheet: var(--background);
+  --tempo-sheet-line: var(--border);
+  --tempo-ink-4: color-mix(in srgb, var(--muted-foreground) 50%, var(--background));
+  --tempo-hair-2: var(--input);
+  --tempo-fill-3: color-mix(in srgb, var(--foreground) 11%, transparent);
+  --tempo-accent: var(--primary);
+  --tempo-accent-soft: color-mix(in srgb, var(--primary) 16%, transparent);
+  --tempo-done: var(--success);
+  --tempo-done-ink: var(--success);
+  --tempo-link: var(--primary);
+  --tempo-underline: color-mix(in srgb, var(--foreground) 20%, transparent);
+  --tempo-underline-hover: color-mix(in srgb, var(--foreground) 55%, transparent);
+  --tempo-seg-off: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --tempo-glass: color-mix(in srgb, var(--background) var(--glass-opacity), transparent);
+  --tempo-glass-line: var(--border);
+  --tempo-composer: var(--popover);
+  --tempo-composer-line: var(--border);
+  --tempo-kbd: var(--muted);
+  --tempo-home-ground: var(--background);
+  --tempo-shadow-pop: 0 18px 48px -12px rgb(0 0 0 / 40%), 0 0 0 1px var(--border);
+  /* The mockup draws flat grounds, without the classic grain on the body and the chrome. */
+  --surface-grain: none;
+}
+
+html[data-look="tempo"]:not([data-theme-id]) {
+  --app-chrome-background: var(--tempo-ground);
+  --background: var(--tempo-sheet);
+  --card-foreground: var(--foreground);
+  --surface-raised: var(--card);
+  --popover: var(--tempo-composer);
+  --popover-foreground: var(--foreground);
+  --secondary: var(--muted);
+  --secondary-foreground: var(--foreground);
+  --placeholder: var(--secondary-label);
+  --accent-foreground: var(--foreground);
+  --message-action-hover: color-mix(in srgb, var(--message-action) 90%, var(--background));
+  --input: var(--tempo-hair-2);
+  --ring: var(--tempo-accent);
+  --info: var(--tempo-accent);
+  --info-foreground: var(--tempo-accent);
+  --update-foreground: var(--tempo-accent);
+  --success-foreground: var(--success);
+  --warning-foreground: var(--warning);
+  --error-foreground: var(--error);
+  --tool-error-icon: var(--error);
+  --sidebar: var(--tempo-ground);
+  --sidebar-control-surface: var(--accent);
+  --sidebar-row-hover: var(--muted);
+  --sidebar-row-active: var(--accent);
+  --sidebar-row-selected: var(--accent);
+  --sidebar-stage-fade: var(--sidebar);
+
+  --tempo-ground: #f2f2f0;
+  --tempo-sheet: #ffffff;
+  --tempo-sheet-line: rgb(0 0 0 / 7.5%);
+  --foreground: #1d1d1f;
+  --muted-foreground: #6b6b70;
+  --secondary-label: #a0a0a5;
+  --tempo-ink-4: #c8c8cc;
+  --border: rgb(0 0 0 / 7%);
+  --tempo-hair-2: rgb(0 0 0 / 12%);
+  --muted: rgb(0 0 0 / 3.5%);
+  --accent: rgb(0 0 0 / 5.5%);
+  --tempo-fill-3: rgb(0 0 0 / 8.5%);
+  --message-surface: #f0f0ee;
+  --card: #fbfbfa;
+  --primary: #2a5ae1;
+  --tempo-accent: #2a5ae1;
+  --tempo-accent-soft: rgb(42 90 225 / 10%);
+  --tempo-done: #18a34a;
+  --tempo-done-ink: #13803c;
+  --tempo-link: #2a62e6;
+  --tempo-underline: rgb(0 0 0 / 17%);
+  --tempo-underline-hover: rgb(0 0 0 / 50%);
+  --warning: #df9418;
+  --success: #1f9d55;
+  --error: #d93b3b;
+  --tempo-seg-off: rgb(0 0 0 / 10%);
+  --tempo-glass: color-mix(
+    in srgb,
+    #ffffff calc(66% + (var(--glass-opacity) - 40%) * (100 - 66) / 60),
+    transparent
+  );
+  --tempo-glass-line: rgb(0 0 0 / 7%);
+  --tempo-composer: #ffffff;
+  --tempo-composer-line: rgb(0 0 0 / 10%);
+  --message-action: #1d1d1f;
+  --message-action-foreground: #ffffff;
+  --tempo-kbd: rgb(0 0 0 / 5%);
+  --code-background: rgb(0 0 0 / 5%);
+  --tempo-shadow-pop: 0 18px 48px -14px rgb(0 0 0 / 22%), 0 0 0 1px rgb(0 0 0 / 7%);
+  --tempo-home-ground: #ffffff;
+
+  @variant dark {
+    --tempo-ground: #0f0f11;
+    --tempo-sheet: #08080a;
+    --tempo-sheet-line: rgb(255 255 255 / 7.5%);
+    --foreground: #ededef;
+    --muted-foreground: #a3a3ab;
+    --secondary-label: #6e6e77;
+    --tempo-ink-4: #4b4b53;
+    --border: rgb(255 255 255 / 7%);
+    --tempo-hair-2: rgb(255 255 255 / 12%);
+    --muted: rgb(255 255 255 / 4.5%);
+    --accent: rgb(255 255 255 / 7.5%);
+    --tempo-fill-3: rgb(255 255 255 / 11%);
+    --message-surface: #202023;
+    --card: #0f0f12;
+    --primary: #3d6cf0;
+    --tempo-accent: #6b93ff;
+    --tempo-accent-soft: rgb(107 147 255 / 16%);
+    --tempo-done: #3dd17f;
+    --tempo-done-ink: #4fd98b;
+    --tempo-link: #93b0ff;
+    --tempo-underline: rgb(255 255 255 / 20%);
+    --tempo-underline-hover: rgb(255 255 255 / 55%);
+    --warning: #f2b24c;
+    --success: #4fc27e;
+    --error: #ff6e6e;
+    --tempo-seg-off: rgb(255 255 255 / 10%);
+    --tempo-glass: color-mix(
+      in srgb,
+      rgb(10 12 22) calc(56% + (var(--glass-opacity) - 40%) * (100 - 56) / 60),
+      transparent
+    );
+    --tempo-glass-line: rgb(255 255 255 / 9%);
+    --tempo-composer: #121215;
+    --tempo-composer-line: rgb(255 255 255 / 9%);
+    --message-action: #f2f2f3;
+    --message-action-foreground: #0b0b0c;
+    --tempo-kbd: rgb(255 255 255 / 7%);
+    --code-background: rgb(255 255 255 / 6.5%);
+    --tempo-shadow-pop: 0 18px 48px -12px rgb(0 0 0 / 70%), 0 0 0 1px rgb(255 255 255 / 8%);
+    --tempo-home-ground: #000000;
+  }
+}
+
+/* The sidebar sits on the ground in the page's own ink, so it drops the stock sidebar palette. */
+html[data-look="tempo"]:not([data-theme-id]) [data-app-sidebar] {
+  --background: var(--tempo-ground);
+  --foreground: inherit;
+  --card: inherit;
+  --card-foreground: inherit;
+  --accent: inherit;
+  --accent-foreground: inherit;
+  --muted: inherit;
+  --muted-foreground: inherit;
+  --secondary-label: inherit;
+  --border: inherit;
+  --input: inherit;
+  --sidebar: inherit;
+  --sidebar-foreground: inherit;
+  --sidebar-muted-foreground: inherit;
+  --sidebar-control-surface: inherit;
+  --sidebar-row-hover: inherit;
+  --sidebar-row-active: inherit;
+  --sidebar-row-selected: inherit;
+  --sidebar-border: inherit;
+  --sidebar-stage-fade: inherit;
+}
+
+/* The new ink and line follow the Contrast setting the way the stock text and border roles do. */
+html[data-look="tempo"],
+html[data-look="tempo"] [data-app-sidebar] {
+  --contrast-tempo-ink-4: color-mix(
+    in oklab,
+    color-mix(in oklab, var(--tempo-ink-4) var(--appearance-contrast-base), var(--background)),
+    var(--appearance-contrast-target) var(--appearance-contrast-boost)
+  );
+  --contrast-tempo-hair-2: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--tempo-hair-2) var(--appearance-contrast-base), transparent),
+    var(--foreground) var(--appearance-contrast-border-boost)
+  );
+}
+
+@theme inline {
+  --color-tempo-ground: var(--tempo-ground);
+  --color-tempo-sheet: var(--tempo-sheet);
+  --color-tempo-sheet-line: var(--tempo-sheet-line);
+  --color-tempo-ink-4: var(--contrast-tempo-ink-4);
+  --color-tempo-hair-2: var(--contrast-tempo-hair-2);
+  --color-tempo-fill-3: var(--tempo-fill-3);
+  --color-tempo-accent: var(--tempo-accent);
+  --color-tempo-accent-soft: var(--tempo-accent-soft);
+  --color-tempo-done: var(--tempo-done);
+  --color-tempo-done-ink: var(--tempo-done-ink);
+  --color-tempo-link: var(--tempo-link);
+  --color-tempo-underline: var(--tempo-underline);
+  --color-tempo-underline-hover: var(--tempo-underline-hover);
+  --color-tempo-seg-off: var(--tempo-seg-off);
+  --color-tempo-glass: var(--tempo-glass);
+  --color-tempo-glass-line: var(--tempo-glass-line);
+  --color-tempo-composer: var(--tempo-composer);
+  --color-tempo-composer-line: var(--tempo-composer-line);
+  --color-tempo-kbd: var(--tempo-kbd);
+  --color-tempo-home-ground: var(--tempo-home-ground);
+  --shadow-tempo-pop: var(--tempo-shadow-pop);
+}
+
+/*
+ * The mockup's sizes between the stock steps, shared by every area, named because the lint rule
+ * bans arbitrary values in class names: type at 12.5, 13, 13.5, 14.5, 15 and 15.5 px, the big
+ * figures' weight and tracking, and the corners of a bar block, a logo, a card and a bubble.
+ */
+@theme {
+  --text-tempo-caption: 0.78125rem;
+  --text-tempo-note: 0.8125rem;
+  --text-tempo-label: 0.84375rem;
+  --text-tempo-list: 0.90625rem;
+  --text-tempo-list--line-height: 1.4375rem;
+  --text-tempo-title: 0.9375rem;
+  --text-tempo-body: 0.96875rem;
+  --text-tempo-body--line-height: 1.5625rem;
+  --font-weight-tempo-figure: 620;
+  --tracking-tempo-figure: -0.03em;
+  --radius-tempo-block: 2.5px;
+  --radius-tempo-logo: 5px;
+  --radius-tempo-card: 14px;
+  --radius-tempo-bubble: 18px;
+}
+
+/* Inter with its optical size axis, which text follows by default (font-optical-sizing: auto),
+   under its own name so the classic look never loads it. */
+@font-face {
+  font-family: "Inter Tempo";
+  font-style: normal;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-opsz-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter Tempo";
+  font-style: normal;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-ext-opsz-normal.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Inter Tempo";
+  font-style: italic;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-opsz-italic.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter Tempo";
+  font-style: italic;
+  font-display: block;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-ext-opsz-italic.woff2")
+    format("woff2-variations");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+html[data-look="tempo"] {
+  --font-sans: "Inter Tempo", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+}
+
+html[data-look="tempo"] body {
+  letter-spacing: -0.006em;
+}
+
+html[data-look="tempo"] :is(code, kbd, pre, samp) {
+  letter-spacing: normal;
+}

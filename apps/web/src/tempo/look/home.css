@@ -1,0 +1,405 @@
+/*
+ * tempo: the home in the tempo look (layout, art and widgets), from the Tempo design mockup.
+ * The typing bar and the widgets under it are one block whose middle sits 10 px above the
+ * middle of the sheet; with the status bar at the bottom the block is the typing bar alone.
+ */
+/* The widgets' own type sizes; the shared sizes, weights and corners are in tokens.css. */
+@theme {
+  --text-tempo-tiny: 0.71875rem;
+  --text-tempo-stat: 1.5rem;
+  --text-tempo-lead: 1.875rem;
+}
+
+html[data-look="tempo"] {
+  --tempo-home-card: color-mix(in srgb, var(--background) 85%, transparent);
+  --tempo-home-veil: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 40%),
+    rgb(255 255 255 / 56%) 45%,
+    rgb(255 255 255 / 72%)
+  );
+
+  @variant dark {
+    --tempo-home-veil: linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 16%),
+      rgb(0 0 0 / 32%) 45%,
+      rgb(0 0 0 / 56%)
+    );
+  }
+
+  &:not([data-theme-id]) {
+    --tempo-home-card: rgb(255 255 255 / 88%);
+
+    @variant dark {
+      --tempo-home-card: rgb(7 9 18 / 80%);
+    }
+  }
+
+  /*
+   * The mockup's home has no header: the art runs to the sheet's top edge, the header's controls
+   * float over it without their bar or the crumb, and the block is centred on the whole sheet.
+   */
+  & [data-tempo-home-sheet] {
+    position: relative;
+
+    & > [data-chat-header] {
+      position: absolute;
+      inset-inline: 0;
+      top: 0;
+      z-index: 30;
+      background: transparent;
+    }
+
+    & [data-tempo-thread-header] > :not([data-tempo-header-controls]) {
+      display: none;
+    }
+
+    & [data-timeline-loading] {
+      background: transparent;
+    }
+  }
+
+  /* Over the art the controls read on glass, as the mockup's search and New thread do over light. */
+  & [data-tempo-home-sheet] [data-tempo-header-controls] {
+    padding: 1px;
+    border-radius: 9px;
+    background: var(--tempo-glass);
+    box-shadow: 0 0 0 1px var(--tempo-glass-line);
+    backdrop-filter: blur(14px);
+  }
+
+  & [data-tempo-home] {
+    --chat-content-max-width: 784px;
+    padding-bottom: 20px;
+  }
+
+  & [data-tempo-home="bottom"] {
+    padding-bottom: 138px;
+  }
+
+  /*
+   * A view-transition-name makes its element a backdrop root, so the card's glass would blur
+   * nothing and the art would show through it sharp. The draft route names the composer for its
+   * mobile route transition, which runs only below 640 px.
+   */
+  @media (min-width: 640px) {
+    & [data-tempo-home-block] [data-chat-composer-stack] > * {
+      view-transition-name: none !important;
+    }
+  }
+
+  /* The mockup's buttons keep the browser's letter-spacing, normal (shell.css). */
+  & [data-tempo-home-block] [data-chat-composer-footer] button {
+    letter-spacing: normal;
+  }
+
+  /* Over the art the placeholder reads in the second ink, as drawn. */
+  & [data-tempo-home-block] [data-slot="composer-shell"] {
+    --contrast-placeholder: var(--contrast-muted-foreground);
+  }
+
+  /*
+   * The prompt and its placeholder read 2 px over the Prompt font size setting, 16 px at the
+   * default 14, as drawn, on the line the setting gives, so the card keeps its drawn height. The
+   * prompt is the box around the editor, on the home and in Settings' preview.
+   */
+  & [data-tempo-home-block] [data-chat-composer-body] [data-composer-prompt] {
+    font-size: calc(var(--font-size-prompt, 14px) + 2px);
+
+    @media (width < 40rem) and (pointer: coarse) {
+      font-size: max(calc(var(--font-size-prompt, 14px) + 2px), 16px);
+    }
+
+    & > *,
+    & .composer-tiptap {
+      line-height: calc(var(--font-size-prompt, 14px) * 1.625);
+    }
+  }
+
+  /* Art painted for this page fades in once; art painted before shows at once. */
+  & [data-tempo-home-art-layer] > canvas {
+    position: absolute;
+    image-rendering: pixelated;
+    opacity: 0;
+
+    &[data-painted] {
+      opacity: 1;
+    }
+
+    &[data-fade] {
+      transition: opacity 240ms ease-out;
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+  }
+
+  /* Forced colors and a request for more contrast get the plain page. */
+  @media (forced-colors: active), (prefers-contrast: more) {
+    & [data-tempo-home-art-layer] {
+      display: none;
+    }
+  }
+
+  & [data-tempo-home-art="picture"] {
+    /* A picture fades into the page under the typing bar on an eased curve, with no visible edge. */
+    &[data-effect="fade"] > [data-tempo-home-art-layer] {
+      mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 20%,
+        rgb(0 0 0 / 98.7%) 26%,
+        rgb(0 0 0 / 91.6%) 32%,
+        rgb(0 0 0 / 77.1%) 38%,
+        rgb(0 0 0 / 57.1%) 44%,
+        rgb(0 0 0 / 35.8%) 50%,
+        rgb(0 0 0 / 17.4%) 56%,
+        rgb(0 0 0 / 5.2%) 62%,
+        rgb(0 0 0 / 0.4%) 68%,
+        transparent 72%
+      );
+    }
+
+    /* The whole picture in its own colors keeps the glass legible under a veil. */
+    &[data-effect="whole"][data-colors="original"] > [data-tempo-home-art-layer]::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--tempo-home-veil);
+    }
+  }
+
+  & [data-tempo-home-widgets="2"] {
+    max-width: 784px;
+
+    & > [data-tempo-home-widget="limit"] {
+      flex: 0 1 340px;
+    }
+  }
+
+  & [data-tempo-home-widgets="3"] {
+    max-width: 1120px;
+
+    & > [data-tempo-home-widget="limit"] {
+      flex: 0 1 248px;
+    }
+
+    & > [data-tempo-home-widget="activity"] {
+      flex: 0 1 340px;
+    }
+
+    /* Without pull requests to take the rest of the row, Activity takes it. */
+    &:not(:has(> [data-tempo-home-widget="pullRequests"])) > [data-tempo-home-widget="activity"] {
+      flex: 1 1 340px;
+    }
+  }
+
+  & [data-tempo-home-widget="month"] {
+    flex: 0 1 216px;
+  }
+
+  /* Beside the Claude limit alone, This month takes the rest of the row. */
+  &
+    [data-tempo-home-widgets="2"]:has(> [data-tempo-home-widget="limit"])
+    > [data-tempo-home-widget="month"] {
+    flex: 1 1 216px;
+  }
+
+  & [data-tempo-home-widget],
+  & [data-tempo-home-dock] {
+    background: var(--tempo-home-card);
+    box-shadow: 0 0 0 1px var(--tempo-glass-line);
+    backdrop-filter: blur(24px) saturate(1.45);
+  }
+
+  & [data-tempo-home-widget] > h3 {
+    font-size: 13.5px;
+
+    & > :is(svg, img) {
+      width: 15px;
+      height: 15px;
+      flex: none;
+    }
+  }
+
+  /* Where a number or a title will stand once its data arrives. */
+  & [data-tempo-home-placeholder] {
+    display: inline-block;
+    border-radius: 4px;
+    background: var(--tempo-seg-off);
+    vertical-align: middle;
+  }
+
+  /* An account's week left in ten blocks, one for each tenth. */
+  & [data-tempo-home-blocks] {
+    display: flex;
+    gap: 2px;
+
+    & > i {
+      flex: 1;
+      height: 6px;
+      border-radius: 1.5px;
+      background: var(--tempo-seg-off);
+    }
+
+    & > i[data-on] {
+      background: var(--tempo-accent);
+    }
+  }
+
+  /* Seven or eight lines share the height of six h-4 rows and their five gap-1.5 gaps, so the
+     card stays as tall as the Activity card beside it. */
+  & [data-tempo-home-accounts]:has(> li:nth-child(7)) {
+    height: calc(var(--spacing) * (6 * 4 + 5 * 1.5));
+    justify-content: space-between;
+    gap: 0;
+
+    & > li {
+      height: calc(var(--spacing) * 3.5);
+    }
+  }
+
+  /* The heat map: the largest whole pixel square that fits 19 weeks (homeActivity.ts) across the
+     card, 8 to 18 px. */
+  & [data-tempo-home-widget="activity"] {
+    container-type: inline-size;
+  }
+
+  & [data-tempo-home-heat] {
+    --cell: clamp(8px, round(down, (100cqw - 54px) / 19, 1px), 18px);
+
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(7, var(--cell));
+    grid-auto-columns: var(--cell);
+    gap: 3px;
+    justify-content: start;
+    margin-block: auto;
+
+    & i {
+      border-radius: max(2px, round(var(--cell) / 4, 1px));
+      background: rgb(0 0 0 / 5.5%);
+
+      @variant dark {
+        background: rgb(255 255 255 / 6%);
+      }
+    }
+
+    & i[data-level="1"] {
+      background: color-mix(in srgb, var(--tempo-accent) 26%, transparent);
+    }
+
+    & i[data-level="2"] {
+      background: color-mix(in srgb, var(--tempo-accent) 46%, transparent);
+    }
+
+    & i[data-level="3"] {
+      background: color-mix(in srgb, var(--tempo-accent) 70%, transparent);
+    }
+
+    & i[data-level="4"] {
+      background: var(--tempo-accent);
+    }
+
+    /* Today, when anything started, in the map's brightest tone. */
+    & i[data-today] {
+      background: #17389e;
+
+      @variant dark {
+        background: #a9c4ff;
+      }
+    }
+  }
+
+  /* A title runs to the row's end and fades there instead of breaking off. */
+  & [data-tempo-home-title] {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
+  }
+
+  /* Five rows spread over the card's height, as drawn; fewer keep to the top. */
+  & [data-tempo-home-pull-requests]:has(> li:nth-child(5)) {
+    justify-content: space-between;
+  }
+
+  & [data-tempo-home-pull-requests] [data-state="merged"] > svg {
+    color: #7c3aed;
+
+    @variant dark {
+      color: #a78bfa;
+    }
+  }
+
+  & [data-tempo-home-pull-requests] [data-state="open"] > svg {
+    color: var(--success);
+  }
+
+  /* Each account's week in the status bar, a bar each. */
+  & [data-tempo-home-cells] {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+
+    & > i {
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      width: 6px;
+      height: 18px;
+      border-radius: 2px;
+      background: var(--tempo-seg-off);
+    }
+
+    & b {
+      width: 100%;
+      border-radius: 3.5px;
+      background: var(--tempo-accent);
+    }
+  }
+
+  & [data-tempo-home-dock-separator] {
+    width: 1px;
+    height: 34px;
+    background: var(--tempo-glass-line);
+  }
+
+  & [data-tempo-home-dock] {
+    border-radius: 18px;
+    box-shadow:
+      0 0 0 1px var(--tempo-glass-line),
+      0 20px 50px -24px rgb(0 0 0 / 60%);
+  }
+
+  /* The draft's project, at the start of the typing bar: its icon, name and a chevron. */
+  & [data-tempo-home-project] {
+    height: 30px;
+    gap: 7px;
+    border-radius: 9px;
+    padding-inline: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    transition:
+      background-color 120ms,
+      color 120ms;
+
+    &:hover,
+    &[data-popup-open] {
+      background: var(--accent);
+      color: var(--foreground);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: -2px;
+    }
+
+    & > svg:last-child {
+      width: 13px;
+      height: 13px;
+      flex: none;
+    }
+  }
+}

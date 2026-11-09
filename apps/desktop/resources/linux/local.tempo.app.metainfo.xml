@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>local.tempo.app</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>Tempo</name>
+  <summary>Desktop GUI for coding agents</summary>
+  <developer id="local.tempo">
+    <name>Tempo</name>
+  </developer>
+  <description>
+    <p>
+      Tempo is a desktop app for coding agents, built on T3 Code. Review code
+      changes and run commands in your projects.
+    </p>
+  </description>
+  <launchable type="desktop-id">tempo.desktop</launchable>
+  <icon type="stock">tempo</icon>
+  <provides>
+    <binary>tempo</binary>
+  </provides>
+  <categories>
+    <category>Development</category>
+  </categories>
+</component>

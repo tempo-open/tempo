@@ -1,0 +1,400 @@
+/*
+ * tempo: the tempo look's composer, with the drawer, the notices and the prompt stash on its card.
+ */
+
+/*
+ * Under a thread the card is solid, as drawn, so replies never show through it; the reply fades
+ * out above it. The fade reaches 32 px over the overlay's box, so the box,
+ * which sizes the timeline's end space and the Scroll to end pill's clearance, stays as tall as
+ * the classic one.
+ */
+html[data-look="tempo"] [data-chat-composer-overlay]:not([data-tempo-home]) {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -2rem 0 0;
+    z-index: -1;
+    background: linear-gradient(to bottom, transparent, var(--background) 38%);
+  }
+
+  & [data-slot="composer-shell"] {
+    --glass-opacity: 100%;
+  }
+}
+
+/*
+ * The prompt and its placeholder read 1.5 px over the Prompt font size setting: 15.5 px at the
+ * default 14, the size of the thread's prose. A phone keeps the 16 px floor the classic touch
+ * size has, under which iOS Safari zooms the page when the prompt takes focus.
+ */
+html[data-look="tempo"] [data-chat-composer-body] [data-composer-prompt] {
+  font-size: calc(var(--font-size-prompt, 14px) + 1.5px);
+
+  @media (width < 40rem) and (pointer: coarse) {
+    font-size: max(calc(var(--font-size-prompt, 14px) + 1.5px), 16px);
+  }
+
+  & > *,
+  & .composer-tiptap {
+    line-height: calc(24 / 15.5);
+  }
+}
+
+html[data-look="tempo"] [data-slot="composer-shell"] {
+  --chat-composer-drawer-inset: 10px;
+  --tempo-composer-shadow: 0 8px 24px -12px rgb(0 0 0 / 14%);
+
+  @variant dark {
+    --tempo-composer-shadow: 0 10px 30px -14px rgb(0 0 0 / 45%);
+  }
+}
+
+html[data-look="tempo"]:not([data-theme-id]) [data-slot="composer-shell"] {
+  --chat-composer-glass-surface: var(--tempo-composer);
+  --chat-composer-outline: var(--tempo-composer-line);
+  --chat-composer-highlight: transparent;
+}
+
+html[data-look="tempo"] [data-slot="composer-shell"]::before,
+html[data-look="tempo"] [data-slot="composer-host"],
+html[data-look="tempo"] [data-slot="composer-host"]::before,
+html[data-look="tempo"] [data-chat-composer-main-surface],
+html[data-look="tempo"] [data-chat-composer-surface] {
+  border-radius: 18px;
+}
+
+html[data-look="tempo"] [data-slot="composer-host"],
+html[data-look="tempo"]
+  [data-slot="composer-shell"]:has([data-composer-banner-surface="attached"])
+  [data-chat-composer-main-surface] {
+  box-shadow: var(--tempo-composer-shadow);
+}
+
+/* With a drawer or tab attached the card paints its own glass, so none spreads behind the tab. */
+html[data-look="tempo"]
+  [data-slot="composer-shell"]:has([data-composer-banner-surface="attached"])
+  [data-slot="composer-host"] {
+  box-shadow: none;
+
+  &::before {
+    display: none;
+  }
+}
+
+/* The prompt's line sits 13 px under the top edge and 10 px over the row of controls. */
+html[data-look="tempo"] [data-chat-composer-body] {
+  padding: 12px 17px 10px 15px;
+
+  & .composer-tiptap {
+    min-height: calc(1lh + 8px);
+  }
+}
+
+html[data-look="tempo"] [data-chat-composer-footer] {
+  padding: 0 9px 8px 15px;
+}
+
+html[data-look="tempo"] [data-chat-composer-attach] {
+  margin-inline-end: 4px;
+}
+
+html[data-look="tempo"] [data-chat-composer-attach] > button {
+  width: 32px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--contrast-muted-foreground);
+
+  &:hover {
+    color: var(--contrast-foreground);
+  }
+}
+
+/* A footer control: its icon takes the label's ink, and on reads blue. */
+html[data-look="tempo"] [data-composer-control="sm"] {
+  height: 30px;
+  gap: 7px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  color: var(--contrast-muted-foreground);
+
+  &:is(:hover, [data-pressed], [data-popup-open]) {
+    color: var(--contrast-foreground);
+  }
+
+  & svg:not([class*="text-"]) {
+    color: currentColor;
+  }
+}
+
+html[data-look="tempo"] [data-composer-control][aria-pressed="true"] {
+  background-color: transparent;
+  color: var(--tempo-accent);
+
+  &:hover {
+    background-color: var(--accent);
+  }
+}
+
+html[data-look="tempo"] [data-message-action-pill] {
+  font-size: 13px;
+}
+
+html[data-look="tempo"] [data-chat-composer-actions="right"],
+html[data-look="tempo"] [data-chat-composer-footer-controls] {
+  gap: 2px;
+}
+
+/*
+ * Model and effort read as one phrase, "Opus 5.5 Max". The effort stays in the faint ink, even
+ * hovered or open, so it never reads darker than the model.
+ */
+html[data-look="tempo"] [data-chat-composer-footer] [data-composer-shortcut~="composer.effort"] {
+  margin-inline-start: -1px;
+  font-weight: 450;
+  color: var(--contrast-secondary-label);
+}
+
+html[data-look="tempo"] [data-chat-composer-actions="right"] > :last-child {
+  margin-inline-start: 4px;
+}
+
+/* Ultracode's label sits on the same trimmed baseline as the model and effort labels. */
+html[data-look="tempo"]
+  [data-chat-composer-footer]
+  [data-composer-shortcut="composer.ultracode"]
+  > span {
+  padding-block: 6px;
+  text-box: trim-both cap alphabetic;
+}
+
+/*
+ * The context strip: the branch, the checkout, the pull requests, then the permissions at the
+ * right, 16 px apart and 16 px in from the card's edges. Each control keeps its 7 px of padding
+ * and 1 px border, so the strip adds no gap and only the last 8 px of the inset.
+ */
+html[data-look="tempo"] [data-slot="composer-context-strip"] {
+  gap: 0;
+  padding: 5.5px 8px 0;
+  font-size: 12.5px;
+  color: var(--contrast-secondary-label);
+
+  & :is(button, [data-composer-context-control], [data-composer-pr-badge]) {
+    gap: 6px;
+    font-size: inherit;
+    color: inherit;
+
+    &:is(:hover, [data-popup-open]) {
+      color: var(--contrast-foreground);
+    }
+  }
+
+  & svg {
+    width: 13px;
+    height: 13px;
+    margin-inline: 0;
+  }
+
+  /* The checkout reads as text, as drawn; its icon returns when the labels collapse. */
+  &:not([data-compact]) [data-composer-workspace-icon] {
+    display: none;
+  }
+
+  & > div:not([data-composer-branch]) {
+    flex-grow: 0;
+    flex-basis: auto;
+  }
+
+  &:not([data-compact])
+    > div:not([data-composer-branch])
+    [data-composer-context-control]
+    > svg:first-child {
+    display: none;
+  }
+
+  & > [data-composer-branch] {
+    display: contents;
+  }
+
+  & [data-composer-branch] > :not([data-composer-pr-badge]) {
+    order: -1;
+  }
+
+  /* The pull requests read in the strip's grey and size, as drawn; the list names each state. */
+  & [data-composer-pr-badge] {
+    order: 1;
+
+    & * {
+      color: inherit;
+      font-size: inherit;
+    }
+  }
+
+  & > [data-composer-context-control]:last-child {
+    order: 2;
+  }
+}
+
+/*
+ * On the home (its block carries data-tempo-home-block) the card is glass over the art, and
+ * the context strip is the card's own footer, so it reads over any picture.
+ */
+html[data-look="tempo"] [data-tempo-home-block] [data-slot="composer-shell"] {
+  --tempo-home-composer-glass: rgb(255 255 255 / 80%);
+  --tempo-home-composer-shadow: 0 24px 50px -26px rgb(20 40 120 / 35%);
+  --color-placeholder: var(--contrast-muted-foreground);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px var(--tempo-glass-line),
+    var(--tempo-home-composer-shadow);
+
+  @variant dark {
+    --tempo-home-composer-glass: var(--tempo-glass);
+    --tempo-home-composer-shadow: 0 24px 60px -24px rgb(0 0 0 / 60%);
+  }
+
+  &::before {
+    display: block;
+    border-radius: 20px;
+    background: var(--tempo-home-composer-glass);
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+
+  & [data-slot="composer-host"] {
+    box-shadow: none;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+
+  &
+    :is(
+      [data-slot="composer-host"],
+      [data-chat-composer-main-surface],
+      [data-chat-composer-surface]
+    ) {
+    border-radius: 20px;
+  }
+
+  & [data-chat-composer-body] {
+    padding: 15.5px 19px 10.75px 17px;
+  }
+
+  & [data-chat-composer-footer] {
+    padding: 0 11px 10px 17px;
+  }
+
+  & [data-slot="composer-context-strip"] {
+    padding: 4.5px 11px 5.5px;
+    border-top: 1px solid var(--tempo-glass-line);
+  }
+}
+
+/* The prompt stash is a small tab on the card's top edge. */
+html[data-look="tempo"] [data-composer-shoulder-tab] {
+  margin-inline-end: 4px;
+  padding-block: 0;
+  padding-inline: 0;
+  font-size: 12.5px;
+
+  &::before {
+    border-radius: 9px 9px 0 0;
+  }
+
+  & > [data-composer-banner-row] {
+    display: flex;
+    gap: 6px;
+    height: 26px;
+    min-height: 0;
+    padding-inline: 10px;
+    border-radius: 9px 9px 0 0;
+    font-weight: 500;
+  }
+
+  & [data-slot="composer-banner-icon"] {
+    width: auto;
+
+    & > svg {
+      width: 13px;
+      height: 13px;
+    }
+  }
+
+  & [data-slot="composer-banner-actions"] > * {
+    min-width: 0;
+  }
+}
+
+/* Notices over the card take the drawn usage limit notice's line. */
+html[data-look="tempo"] [data-composer-banner-stack] {
+  & [data-slot="composer-banner"] {
+    padding: 9px 12px 9px 6px;
+    font-size: 13px;
+    line-height: 18px;
+
+    &::before {
+      border-radius: 14px 14px 0 0;
+    }
+  }
+
+  & [data-slot="composer-banner-actions"] [data-slot="button"] {
+    height: 26px;
+    padding-inline: 9px;
+    border-radius: 7px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--contrast-foreground);
+  }
+}
+
+html[data-look="tempo"] [data-composer-banner-surface][data-variant="warning"] {
+  --chat-composer-attached-outline: color-mix(in srgb, var(--warning) 30%, transparent);
+  --chat-composer-attached-tint: color-mix(in srgb, var(--warning) 10%, transparent);
+}
+
+/*
+ * The question drawer: a card above the composer's top edge. The plan
+ * and sub chat approval drawers share its root and keep today's spacing.
+ */
+html[data-look="tempo"] [data-chat-composer-top-drawer]:has([data-pending-user-input-toggle]) {
+  padding: 0;
+  font-size: 12.5px;
+
+  &::before {
+    border-radius: 16px 16px 0 0;
+  }
+
+  & [data-pending-user-input-toggle] {
+    padding: 8px 8px 0;
+    font-weight: 500;
+    color: var(--contrast-secondary-label);
+  }
+
+  & [data-question-picker] {
+    padding: 0 14px 10px;
+  }
+
+  & [data-question-heading] > div:first-of-type {
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  & [data-question-option] {
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 1px var(--border);
+
+    &[aria-checked="true"] {
+      background-color: var(--tempo-accent-soft);
+      box-shadow: inset 0 0 0 1.5px var(--tempo-accent);
+    }
+
+    &:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--ring);
+    }
+  }
+
+  & [data-question-hint] {
+    font-size: 12.5px;
+  }
+}

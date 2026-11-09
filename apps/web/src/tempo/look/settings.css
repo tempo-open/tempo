@@ -1,0 +1,702 @@
+/* tempo: Settings in the tempo look, from the Tempo design mockup (settings=appearance): the
+   dialog, its page list, the pages' sections and rows, and Appearance's Home section with its live
+   preview. Components keep their structure; this file holds the mockup's sizes and states. */
+
+/* ── The dialog and its page list ── */
+
+html[data-look="tempo"] [data-app-modal]:has([data-workspace-area="settings-nav"]) {
+  @media (width >= 40rem) {
+    max-height: 964px;
+    border-width: 0;
+    border-radius: 14px;
+    box-shadow:
+      0 30px 90px -24px rgb(0 0 0 / 28%),
+      0 0 0 1px var(--color-tempo-hair-2);
+
+    @variant dark {
+      box-shadow:
+        0 30px 90px -20px rgb(0 0 0 / 75%),
+        0 0 0 1px var(--color-tempo-hair-2);
+    }
+  }
+}
+
+html[data-look="tempo"]
+  [data-slot="dialog-backdrop"]:has(+ * [data-workspace-area="settings-nav"]) {
+  background: rgb(24 24 32 / 20%);
+  backdrop-filter: blur(6px);
+
+  @variant dark {
+    background: rgb(0 0 0 / 58%);
+  }
+}
+
+html[data-look="tempo"] [data-workspace-area="settings-nav"] {
+  --sidebar-control-gap: 10px;
+  --sidebar-icon-color: var(--color-muted-foreground);
+  background: var(--background);
+
+  & [data-slot="sidebar-group"] {
+    padding: 10px 8px;
+  }
+
+  /* The search row, and below it the pages: rows a pixel apart, each group under a quiet label. */
+  & [data-slot="sidebar-group"] > div {
+    gap: 7px;
+  }
+
+  & div:has(> * > input[type="search"]) {
+    height: 34px;
+    gap: 9px;
+    padding-inline: 10px 8px;
+    border-radius: 8px;
+  }
+
+  & input[type="search"] {
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  & [data-slot="kbd"] {
+    height: auto;
+    min-width: 0;
+    padding: 1px 6px;
+    border-radius: 5px;
+    background-color: var(--tempo-kbd);
+    color: var(--color-secondary-label);
+    font-weight: 400;
+    line-height: 15px;
+  }
+
+  & [role="tree"],
+  & [role="tree"] > [role="group"],
+  & [role="tree"] [data-slot="sidebar-menu"] {
+    gap: 1px;
+  }
+
+  & [role="tree"] > [role="group"] {
+    & + [role="group"]:not(:has(> h3)) {
+      margin-top: 13px;
+    }
+
+    & > h3 {
+      padding: 12px 10px 4px;
+      font-size: 12.5px;
+      line-height: normal;
+      color: var(--color-secondary-label);
+    }
+  }
+
+  & [data-settings-section] {
+    font-weight: 400;
+    color: var(--color-foreground);
+
+    &:hover:not([data-active="true"]) {
+      background: var(--muted);
+    }
+  }
+}
+
+html[data-look="tempo"] [data-workspace-area="settings"] > header {
+  height: 50px;
+  padding-inline: 22px 12px;
+
+  & ol {
+    gap: 10px;
+    font-size: 14.5px;
+  }
+
+  & li:not([aria-current]) {
+    font-weight: 450;
+  }
+
+  & li[aria-hidden] {
+    color: var(--color-tempo-ink-4);
+  }
+}
+
+/* ── Pages: sections and their rows ── */
+
+html[data-look="tempo"] [data-workspace-area="settings"] {
+  & [data-settings-page-scroll] > div {
+    gap: 34px;
+    padding-top: 22px;
+  }
+
+  & section > [data-settings-scroll-target]:has(> div > h2) {
+    min-height: 0;
+    align-items: baseline;
+    margin-bottom: 12px;
+    padding-inline: 2px;
+
+    & > div,
+    & h2 {
+      min-height: 0;
+    }
+
+    & h2 {
+      line-height: normal;
+      letter-spacing: -0.01em;
+    }
+  }
+
+  & [data-slot="settings-group"][data-variant="grouped"] {
+    border-width: 0;
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: 0 0 0 1px var(--color-border);
+
+    & > * + * {
+      border-color: var(--border);
+    }
+  }
+
+  & [data-slot="settings-row"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 60px;
+    padding: 11px 16px 11px 18px;
+  }
+
+  /* The row's own title line and description, not the content some rows hold under them. The
+     title line keeps its reset button without growing past the title. */
+  & [data-slot="settings-row"] > div > div > div:has(> h3) {
+    min-height: 17px;
+    margin-bottom: 3px;
+
+    & > span {
+      height: 17px;
+    }
+
+    & > h3 {
+      font-size: 14px;
+      line-height: normal;
+    }
+
+    & + p {
+      font-size: 12.5px;
+      line-height: normal;
+      color: var(--color-secondary-label);
+    }
+  }
+}
+
+/* ── Appearance: the Home section ── */
+
+html[data-look="tempo"] {
+  /* The mockup's segmented control (.segctl), as on the Usage page. */
+  & [data-tempo-settings-segmented] {
+    gap: 0;
+    padding: 2px;
+    border-radius: 9px;
+    background-color: var(--accent);
+
+    & [data-slot="toggle"] {
+      height: 26px;
+      border-width: 0;
+      padding-inline: 12px;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-muted-foreground);
+
+      &:hover {
+        background-color: transparent;
+        color: var(--color-foreground);
+      }
+
+      &[data-pressed] {
+        background-color: var(--background);
+        color: var(--color-foreground);
+        box-shadow:
+          0 1px 2px rgb(0 0 0 / 20%),
+          0 0 0 0.5px var(--color-tempo-hair-2);
+      }
+    }
+  }
+
+  & [data-tempo-settings-aside] {
+    font-size: 12.5px;
+    line-height: normal;
+    color: var(--color-secondary-label);
+  }
+}
+
+html[data-look="tempo"] [data-tempo-home-settings] {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  container-type: inline-size;
+}
+
+/* The preview: a window of the mockup's size, scaled to the column (HomePreview.tsx). */
+html[data-look="tempo"] [data-tempo-home-preview] {
+  position: relative;
+  aspect-ratio: 1728 / 1080;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--tempo-ground);
+  box-shadow:
+    0 0 0 1px var(--color-tempo-hair-2),
+    0 18px 44px -26px rgb(0 0 0 / 70%);
+
+  & > iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    pointer-events: none;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-theme] {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  & [data-tempo-settings-segmented] {
+    background: rgb(12 12 16 / 72%);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 10%);
+    backdrop-filter: blur(12px);
+
+    & [data-slot="toggle"] {
+      height: 24px;
+      padding-inline: 10px;
+      font-size: 12px;
+      color: rgb(255 255 255 / 62%);
+
+      &:hover {
+        color: #fff;
+      }
+
+      &[data-pressed] {
+        background: rgb(255 255 255 / 16%);
+        color: #fff;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+/*
+ * Inside the preview's frame: the window the mockup draws, 1728 by 1080, zoomed to fit. The title
+ * bar, sidebar and typing bar are the app's own parts; here they sit in the window instead of the
+ * viewport, and the traffic lights the system draws are drawn as the mockup has them.
+ */
+html[data-look="tempo"] [data-tempo-home-preview-window] {
+  --workspace-controls-left: 90px;
+  --workspace-controls-right: 12px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  width: 1728px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--tempo-ground);
+  color: var(--color-foreground);
+  font-size: 14px;
+
+  & [data-tempo-title-bar] {
+    position: absolute;
+    -webkit-app-region: no-drag;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-lights] {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 41;
+  display: flex;
+  gap: 8px;
+
+  & > i {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f57;
+    box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 25%);
+
+    &:nth-child(2) {
+      background: #febc2e;
+    }
+
+    &:nth-child(3) {
+      background: #28c840;
+    }
+  }
+}
+
+/* The sidebar under the title bar, as the window lays it out (shell.css and sidebar.css). */
+html[data-look="tempo"] [data-tempo-home-preview-sidebar] {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: var(--tempo-titlebar-height);
+  background: var(--sidebar);
+  color: var(--sidebar-foreground);
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-sidebar-top] {
+  position: relative;
+  padding: 4px 10px 0;
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-list] {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  padding: 1px 10px 0;
+
+  & [data-tempo-home-preview-row] > span:nth-child(2) {
+    mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
+  }
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-shelves] {
+  padding: 2px 10px 0;
+  border-top: 1px solid var(--border);
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-footer] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+}
+
+/* Settings, Pull requests and Usage, as the footer's utility row draws them. */
+html[data-look="tempo"] [data-tempo-home-preview-utility] {
+  display: flex;
+  gap: 2px;
+  padding-inline: 2px;
+  color: var(--muted-foreground);
+
+  & > svg {
+    box-sizing: content-box;
+    width: 16px;
+    height: 16px;
+    padding: 6px 7px;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-home-preview-sheet] {
+  position: relative;
+  overflow: hidden;
+  margin: var(--tempo-titlebar-height) 8px 8px 0;
+  border-radius: 12px;
+  background: var(--background);
+  box-shadow: 0 0 0 1px var(--tempo-sheet-line);
+}
+
+/* The backgrounds, each a thumbnail of its own art. */
+html[data-look="tempo"] [data-tempo-home-tiles] {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+
+  /* A narrow window keeps every name whole, three to a row. */
+  @container (width < 40rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  & > button {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+    border-radius: 9px;
+    color: var(--color-muted-foreground);
+    font-size: 12.5px;
+    line-height: normal;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+
+    & > span:last-child {
+      padding-left: 2px;
+    }
+
+    & > span:first-child {
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: 9px;
+      background: var(--muted);
+      box-shadow: 0 0 0 1px var(--color-tempo-hair-2);
+
+      & > svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &[data-tempo-home-tile="plain"][data-theme="dark"] > span:first-child {
+      background: #000;
+    }
+
+    &[data-tempo-home-tile="plain"][data-theme="light"] > span:first-child {
+      background: #fff;
+    }
+
+    /* The empty upload tile takes the preview's theme too. */
+    &[data-tempo-home-tile="picture"][data-theme="dark"] > span:first-child {
+      background: rgb(19 19 21);
+      color: #a3a3ab;
+    }
+
+    &[data-tempo-home-tile="picture"][data-theme="light"] > span:first-child {
+      background: #f6f6f6;
+      color: #6b6b70;
+    }
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+
+    &[aria-pressed="true"] {
+      color: var(--color-foreground);
+      font-weight: 500;
+
+      & > span:first-child {
+        box-shadow: 0 0 0 2px var(--tempo-accent);
+      }
+    }
+
+    &:focus-visible > span:first-child {
+      box-shadow:
+        0 0 0 2px var(--background),
+        0 0 0 4px var(--ring);
+    }
+  }
+}
+
+/* The widget chips: two or three on, the rest off. */
+html[data-look="tempo"] [data-tempo-home-chips] {
+  display: flex;
+  gap: 6px;
+
+  & > button {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding-inline: 9px 10px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px var(--color-tempo-hair-2);
+    color: var(--color-muted-foreground);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: 1px;
+    }
+
+    &[aria-disabled="true"] {
+      cursor: default;
+    }
+
+    &[aria-pressed="true"] {
+      background: var(--tempo-accent-soft);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tempo-accent) 50%, transparent);
+      color: var(--color-foreground);
+    }
+  }
+}
+
+/* ── Appearance: Color scheme and Themes ── */
+
+/* Each tile's picture keeps the page, the sidebar and the typing bar in the colors of the theme it
+   would use, drawn as plain blocks. */
+html[data-look="tempo"] [data-tempo-mode-tiles] > button {
+  gap: 10px;
+  padding: 8px 8px 12px;
+  border: 0;
+
+  &:not([aria-pressed="true"]) {
+    box-shadow: inset 0 0 0 1px var(--color-tempo-hair-2);
+  }
+
+  & > span:last-child {
+    font-size: 13.5px;
+    line-height: 16px;
+  }
+
+  & > span:first-child {
+    height: auto;
+    aspect-ratio: 16 / 8.5;
+    border-color: rgb(128 128 128 / 20%);
+    border-radius: 8px;
+
+    & > span > span:not(:nth-child(1), :nth-child(2), :nth-child(10)) {
+      display: none;
+    }
+
+    & > span > span:nth-child(10) {
+      inset: auto 8% 12% 30%;
+      height: 15%;
+      border-radius: 5px;
+
+      & > span {
+        display: none;
+      }
+    }
+  }
+}
+
+html[data-look="tempo"] [data-tempo-theme-actions] {
+  gap: 6px;
+
+  & > [data-slot="button"] {
+    height: 28px;
+    gap: 6px;
+    padding-inline: 9px;
+    border-radius: 8px;
+    font-size: 12.5px;
+
+    & svg {
+      width: 13px;
+      height: 13px;
+    }
+  }
+}
+
+html[data-look="tempo"] :has(> [data-theme-library-card]) {
+  gap: 10px;
+}
+
+/* A theme card is the mockup's 132 px: its colors at the top, the name and actions at the foot. */
+html[data-look="tempo"] [data-theme-library-card] {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 132px;
+}
+
+/* ── Browser: where links open (the mockup's .lt-h, .lt, .lt-o, .lt-k; LinkTargetChoice.tsx) ── */
+
+html[data-look="tempo"] [data-workspace-area="settings"] [data-tempo-link-target] {
+  min-height: 0;
+  padding: 0;
+
+  & > div:first-child {
+    align-items: baseline;
+    margin: 0 4px 10px;
+  }
+
+  & > div > div > div:has(> h3) {
+    margin-bottom: 0;
+  }
+
+  & h3 {
+    font-weight: 600;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-link-target-options] {
+  gap: 8px;
+}
+
+html[data-look="tempo"] [data-tempo-link-target-option] {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--color-tempo-hair-2);
+  outline: none;
+  cursor: pointer;
+
+  &[data-checked] {
+    background: var(--color-tempo-accent-soft);
+    box-shadow: inset 0 0 0 1.5px var(--color-tempo-accent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-tempo-accent);
+    outline-offset: 2px;
+  }
+
+  &[data-disabled] {
+    opacity: 0.64;
+    cursor: default;
+  }
+
+  & [data-tempo-link-target-dot] {
+    position: relative;
+    flex: none;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1.5px var(--color-secondary-label);
+  }
+
+  &[data-checked] [data-tempo-link-target-dot] {
+    box-shadow: inset 0 0 0 1.5px var(--color-tempo-accent);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      background: var(--color-tempo-accent);
+    }
+  }
+
+  & [data-tempo-link-target-text] {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    & > b {
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: normal;
+      color: var(--color-foreground);
+    }
+
+    & > span {
+      font-size: 12.5px;
+      line-height: 18px;
+      color: var(--color-secondary-label);
+    }
+  }
+
+  & [data-tempo-link-target-tag] {
+    flex: none;
+    margin-left: auto;
+    font-size: 12px;
+    line-height: normal;
+    font-weight: 500;
+    color: var(--color-tempo-accent);
+  }
+}
+
+html[data-look="tempo"] [data-tempo-link-target-key] {
+  margin: 12px 4px 0;
+  font-size: 12.5px;
+  line-height: normal;
+  color: var(--color-secondary-label);
+}
+
+html[data-look="tempo"]
+  [data-slot="settings-group"][data-variant="plain"]:has([data-tempo-link-target])
+  > [data-variant="grouped"] {
+  margin-top: 18px;
+}

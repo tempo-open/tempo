@@ -1,0 +1,53 @@
+/*
+ * tempo: the tempo look's sidebar list. The rows, labels and docked shelves carry their own
+ * classes; this file reaches what they borrow from shared components.
+ */
+
+/* The sidebar's own sizes: times, labels and status words (12.5) and the hover card's title (13.5),
+   each with its line, and Inter's 450 for titles. The shared sizes and corners are in tokens.css. */
+@theme inline {
+  --text-tempo-meta: 0.78125rem;
+  --text-tempo-meta--line-height: 1.5;
+  --text-tempo-heading: 0.84375rem;
+  --text-tempo-heading--line-height: calc(18 / 13.5);
+  --font-weight-book: 450;
+  --shadow-tempo-lift: var(--tempo-shadow-lift);
+  --shadow-tempo-field: inset 0 0 0 1.5px var(--tempo-accent);
+}
+
+/* A row lifted by a drag. */
+html[data-look="tempo"] {
+  --tempo-shadow-lift: 0 14px 30px -12px rgb(0 0 0 / 20%), 0 0 0 1px var(--contrast-tempo-hair-2);
+
+  @variant dark {
+    --tempo-shadow-lift: 0 14px 30px -10px rgb(0 0 0 / 55%), 0 0 0 1px var(--contrast-tempo-hair-2);
+  }
+}
+
+/* A row's hover card: the typing bar's card with the floating shadow, not the glass tooltip. */
+html[data-look="tempo"] [data-tempo-row-card] {
+  border: 0;
+  border-radius: 14px;
+  background: var(--tempo-composer);
+  box-shadow: var(--tempo-shadow-pop);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html[data-look="tempo"] [data-tempo-row-card] > [data-slot="tooltip-viewport"] {
+  padding: 13px 14px 12px;
+}
+
+/* The docked shelves cover the list's foot, so only its top fades as it scrolls. */
+html[data-look="tempo"] [data-slot="scroll-area-viewport"]:has([data-tempo-docked-shelves]) {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 min(var(--fade-size), var(--scroll-area-overflow-y-start, 0px))
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 min(var(--fade-size), var(--scroll-area-overflow-y-start, 0px))
+  );
+}

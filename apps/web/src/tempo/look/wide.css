@@ -1,0 +1,48 @@
+/*
+ * tempo: the tempo look on a wide window (the Tempo design mockup's "Wide windows"). Everything in the sidebar grows with the window, and the conversation, its header, its
+ * minimap and the title bar's search line up on one axis (look/windowAxis.ts).
+ */
+
+/* A number, so a zoomed element and its children read the same value. */
+@property --tempo-sidebar-zoom {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+/* 1 up to a 2000 px window, rising to 1.1 at 2800 px and wider. */
+html[data-look="tempo"] {
+  --tempo-sidebar-zoom: clamp(1, 1 + (100vw - 2000px) / 8000px, 1.1);
+}
+
+/*
+ * The sidebar keeps its width; its top keeps the art at whole pixels, and the rail stays on its
+ * edge. The list zooms inside its scroller, whose offsets then stay in screen pixels, the unit
+ * dnd-kit adds to a dragged row's translate as the list scrolls under it.
+ */
+html[data-look="tempo"] [data-app-sidebar] [data-slot="sidebar-inner"] {
+  &
+    > :not(
+      [data-tempo-sidebar-top],
+      [data-slot="sidebar-rail"],
+      :has(> [data-slot="scroll-area-viewport"])
+    ),
+  & > * > [data-slot="scroll-area-viewport"] > * {
+    zoom: var(--tempo-sidebar-zoom);
+  }
+}
+
+/* Once the axis has moved, the title starts where the column's text does, and its logo hangs in
+   the margin as a list's bullet does. */
+html[data-look="tempo"] [data-tempo-thread-header][data-tempo-axis] {
+  margin-inline-start: max(30px, var(--tempo-column-start) - 20px);
+
+  & > :is(img, span):first-child {
+    margin-inline-start: -30px;
+  }
+}
+
+/* The minimap's marks, 22 px into it, sit 56 px left of the column's text. */
+html[data-look="tempo"] [data-chat-canvas][data-tempo-axis] [data-timeline-minimap] {
+  left: max(0px, var(--tempo-column-start) - 78px);
+}

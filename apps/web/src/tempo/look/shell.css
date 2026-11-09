@@ -1,0 +1,363 @@
+/*
+ * tempo: the tempo look's window. One
+ * 44 px title bar runs across the window; the sidebar sits on the window ground below it, and the
+ * page is a rounded sheet inset 8 px beside the sidebar.
+ */
+
+html[data-look="tempo"] {
+  --tempo-titlebar-height: 44px;
+  /* A project's monogram sits on a solid tile of its color (ProjectMonogram.tsx). */
+  --tempo-monogram-tile: currentColor;
+}
+
+html[data-look="tempo"] [data-slot="sidebar-wrapper"] {
+  background-color: var(--tempo-ground);
+}
+
+/* The sheet's edge divides it from the sidebar, which draws no edge of its own. */
+html[data-look="tempo"] [data-app-sidebar][data-slot="sidebar-container"] {
+  border-right-width: 0;
+}
+
+html[data-look="tempo"] [data-slot="sidebar-inset"] {
+  height: auto;
+  margin: var(--tempo-titlebar-height) 8px 8px 0;
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px var(--tempo-sheet-line);
+  overflow: hidden;
+
+  @variant light {
+    box-shadow:
+      0 0 0 1px var(--tempo-sheet-line),
+      0 1px 3px rgb(0 0 0 / 4%);
+  }
+
+  @media (max-width: 767px) {
+    margin-left: 8px;
+  }
+}
+
+html[data-look="tempo"] [data-sidebar-state="collapsed"] [data-slot="sidebar-inset"] {
+  margin-left: 8px;
+}
+
+html[data-look="tempo"] [data-panel-animations="true"] [data-slot="sidebar-inset"] {
+  @media (prefers-reduced-motion: no-preference) {
+    transition: margin-left var(--panel-animation-duration) ease-out;
+  }
+}
+
+/* Toasts clear the sheet's header, which sits under the title bar, as classic clears its own. */
+html[data-look="tempo"] [data-slot="toast-viewport"] {
+  --toast-header-offset: calc(var(--tempo-titlebar-height) + var(--workspace-topbar-height));
+}
+
+/* The mockup's buttons keep the browser's letter-spacing, normal, while its other text has the
+   body's -0.006em. */
+html[data-look="tempo"]
+  :is(
+    [data-tempo-title-bar-search],
+    [data-tempo-new-thread],
+    [data-tempo-limit-glance] button,
+    [data-tempo-header-chip]
+  ) {
+  letter-spacing: normal;
+}
+
+/* The search field in the middle of the title bar opens the command palette. */
+html[data-look="tempo"] [data-tempo-title-bar-search] {
+  width: min(380px, calc(100vw - 448px));
+  height: 30px;
+  padding-inline: 11px 8px;
+  border-radius: 9px;
+  background-color: var(--accent);
+  color: var(--contrast-secondary-label);
+  font-size: 13.5px;
+
+  &:hover {
+    background-color: var(--tempo-fill-3);
+  }
+
+  & svg {
+    width: 15px;
+    height: 15px;
+    flex: none;
+  }
+
+  & kbd {
+    flex: none;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background-color: var(--tempo-kbd);
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* The window's icon buttons are the mockup's 30 by 28 with a 7 px corner (.tbtn), as the footer's
+   are: in the title bar, in the thread header and over or in the side panel. */
+html[data-look="tempo"]
+  :is(
+    [data-tempo-title-bar] button:not([data-tempo-title-bar-search]),
+    [data-tempo-header-controls] button:not([data-tempo-header-chip]),
+    [data-workspace-titlebar-controls] button,
+    [data-right-panel-tabbar] > button
+  ) {
+  width: 30px;
+  min-width: 30px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+/* The morphing sidebar and Maximize icons take the 1.75 stroke the lucide icons have. */
+html[data-look="tempo"] :is([data-sidebar="trigger"], [data-right-panel-tabbar] > button) svg {
+  stroke-width: 1.75;
+}
+
+/* Over the light in dark, the title bar's left controls read in white. */
+html.dark[data-look="tempo"]
+  [data-tempo-title-bar][data-over-art]
+  [data-tempo-title-bar-nav]
+  button {
+  color: rgb(255 255 255 / 92%);
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 60%));
+}
+
+html[data-look="tempo"] [data-tempo-title-bar] [data-tempo-title-bar-nav] button:disabled {
+  opacity: 1;
+  color: var(--contrast-tempo-ink-4);
+}
+
+html.dark[data-look="tempo"]
+  [data-tempo-title-bar][data-over-art]
+  [data-tempo-title-bar-nav]
+  button:disabled {
+  color: rgb(255 255 255 / 50%);
+}
+
+/* The sheet's header: 52 px, the thread at 20 px from the sheet's edge, the controls at 12 px. No
+   room is kept for the traffic lights, which the title bar holds. */
+html[data-look="tempo"] :is([data-chat-header], [data-workspace-page-header]) {
+  padding-inline: 20px 12px;
+}
+
+/* The dithered blue light behind the title bar and New thread. The art is 140 by 88 pixels drawn
+   at 2 px each, so it scales by whole numbers at 1x and 2x. A narrower sidebar crops it. */
+html[data-look="tempo"] [data-tempo-sidebar-top] {
+  container-type: inline-size;
+}
+
+html[data-look="tempo"] .sidebar-light-backdrop {
+  max-width: 280px;
+  height: 112px;
+  background: url("../sidebar/sidebar-light-light.png") left bottom / 280px 176px no-repeat;
+  image-rendering: pixelated;
+  mask-image: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 28%) 0,
+    rgb(0 0 0 / 40%) 34%,
+    black 58%,
+    transparent 100%
+  );
+
+  /* A sidebar wider than the art would show its edge; the art fades out before it. */
+  @container (min-width: 281px) {
+    mask-image:
+      linear-gradient(
+        to bottom,
+        rgb(0 0 0 / 28%) 0,
+        rgb(0 0 0 / 40%) 34%,
+        black 58%,
+        transparent 100%
+      ),
+      linear-gradient(to right, black 200px, transparent);
+    mask-composite: intersect;
+  }
+
+  @variant dark {
+    background-image: url("../sidebar/sidebar-light-dark.png");
+  }
+
+  @media (forced-colors: active), (prefers-contrast: more) {
+    display: none;
+  }
+}
+
+/* New thread sits 4 px under the title bar and 10 px from the sidebar's sides. */
+html[data-look="tempo"] [data-sidebar="group"]:has(> [data-tempo-new-thread-row]) {
+  padding: 4px 10px 0;
+}
+
+html[data-look="tempo"] [data-tempo-new-thread] {
+  height: 34px;
+  gap: 9px;
+  padding-inline: 10px;
+  border-radius: 9px;
+  background-color: var(--accent);
+  color: var(--foreground);
+  font-size: 14px;
+  font-weight: 500;
+
+  &:not(:disabled):hover {
+    background-color: var(--tempo-fill-3);
+  }
+
+  & kbd {
+    flex: none;
+    color: var(--contrast-secondary-label);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 450;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-new-thread][data-over-art] {
+  background-color: var(--tempo-glass);
+  box-shadow: 0 0 0 1px var(--tempo-glass-line);
+  backdrop-filter: blur(14px);
+}
+
+/* Sidebar footer: a hairline across the sidebar, then the limits and the utility row. */
+html[data-look="tempo"] [data-app-sidebar] [data-sidebar="footer"] {
+  gap: 6px;
+  margin-top: 0;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+}
+
+html[data-look="tempo"] [data-tempo-sidebar-utility] {
+  padding-inline: 2px;
+  gap: 2px;
+}
+
+html[data-look="tempo"]
+  [data-tempo-sidebar-utility]
+  [data-sidebar="menu-button"][data-size="icon"] {
+  --sidebar-icon-color: var(--muted-foreground);
+  width: 30px;
+  height: 28px;
+  border-radius: 7px;
+  color: var(--muted-foreground);
+
+  &:hover {
+    background-color: var(--accent);
+    color: var(--foreground);
+  }
+}
+
+/* Claude and Codex in the footer: the week left, pooled, and one small bar per account. */
+html[data-look="tempo"] [data-tempo-limit-glance] button {
+  gap: 9px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+  line-height: 16px;
+
+  &:hover {
+    background-color: var(--muted);
+  }
+
+  & img {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    border-radius: 4px;
+  }
+
+  & svg {
+    width: 11px;
+    height: 11px;
+    color: var(--muted-foreground);
+    stroke-width: 2;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-limit-name] {
+  width: 50px;
+  text-align: center;
+}
+
+html[data-look="tempo"] [data-tempo-limit-bars] {
+  display: inline-flex;
+  min-width: 30px;
+  height: 12px;
+  align-items: flex-end;
+  gap: 2.5px;
+
+  & > span {
+    display: flex;
+    width: 4px;
+    height: 12px;
+    align-items: flex-end;
+    overflow: hidden;
+    border-radius: 1.5px;
+    background-color: var(--tempo-seg-off);
+  }
+
+  & > span > span {
+    width: 100%;
+    border-radius: 1.5px;
+    background-color: var(--muted-foreground);
+  }
+}
+
+/* The thread header: logo, title and project, then its pull requests and pages as chips, then
+   the panel toggles and More. */
+html[data-look="tempo"]
+  :is([data-panel-layout-controls], [data-workspace-titlebar-controls])
+  [data-slot="toggle"] {
+  color: var(--muted-foreground);
+
+  & svg {
+    opacity: 1;
+  }
+
+  &:hover,
+  &[data-pressed] {
+    color: var(--foreground);
+  }
+}
+
+html[data-look="tempo"] [data-tempo-thread-header] {
+  & > :is(img, span):first-child {
+    border-radius: 5.5px;
+  }
+
+  & h2,
+  & input {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+
+  & [data-thread-project-link] {
+    font-size: 13.5px;
+  }
+
+  /* More opens the title's menu, so the title keeps no chevron to point at it. */
+  & [data-thread-title-chevron] {
+    display: none;
+  }
+}
+
+html[data-look="tempo"] [data-tempo-header-chip] {
+  height: 28px;
+  gap: 7px;
+  padding-inline: 10px;
+  border-radius: 8px;
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+
+  &:hover {
+    background-color: var(--accent);
+  }
+
+  & svg {
+    color: var(--muted-foreground);
+  }
+}

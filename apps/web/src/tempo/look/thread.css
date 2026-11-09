@@ -1,0 +1,192 @@
+/* tempo: the thread view in the tempo look. Components carry their own differences with the
+   tempo: variant. */
+
+/* The column is 720 px at the default Chat width; Wide and Full keep their widths. */
+html[data-look="tempo"][data-chat-width="comfortable"] {
+  --chat-content-max-width: 45rem;
+}
+
+/* A timeline row's lane clips on x. The hover fills of work and subagent rows reach 8 px past the
+   column, as in the mockup, so the lane holds that reach as padding outside the same column. */
+html[data-look="tempo"] [data-timeline-root] {
+  width: auto;
+  max-width: none;
+  margin-inline: max(-0.5rem, (100% - var(--chat-content-max-width)) / 2 - 0.5rem);
+  padding-inline: 0.5rem;
+}
+
+/* Replies read at 15.5 px on a 26 px line with 16 px between paragraphs; a message bubble on 25 px. */
+html[data-look="tempo"] [data-timeline-row-kind="message"] .chat-markdown {
+  font-size: var(--text-tempo-body);
+  line-height: 1.625rem;
+
+  & :is(p, ul, ol, blockquote, .chat-markdown-codeblock, .chat-markdown-table-container) {
+    margin-block: 1rem;
+  }
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+html[data-look="tempo"] [data-message-role="user"] .chat-markdown {
+  line-height: var(--text-tempo-body--line-height);
+
+  & :is(p, ul, ol, blockquote, .chat-markdown-codeblock, .chat-markdown-table-container) {
+    margin-block: 0.5rem;
+  }
+}
+
+/* A queued message's actions: 26 px tall words, as the notices' are. */
+html[data-look="tempo"]
+  [data-queued-actions]
+  button:is([data-slot="button"], [data-slot="tooltip-trigger"]) {
+  height: 26px;
+  padding-inline: 9px;
+  border-radius: 7px;
+  font-size: 12.5px;
+}
+
+/* Replies: links and named things, deliverable cards, inline code and alerts. */
+
+/* A link reads as its name in ink, underlined; the logo before it (ReplyLinkLogo) has no line. */
+html[data-look="tempo"]
+  .chat-markdown
+  a:not(
+    .chat-markdown-file-link,
+    :has([data-slot="context-chip-label"]),
+    [data-markdown-image-link],
+    [data-page-preview]
+  ) {
+  color: var(--foreground);
+  text-decoration-line: underline;
+  text-decoration-color: var(--tempo-underline);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4.5px;
+
+  &:is(:hover, :focus-visible) {
+    background-image: none;
+    text-decoration-color: var(--tempo-underline-hover);
+  }
+}
+
+html[data-look="tempo"] .chat-markdown [data-reply-link-logo] {
+  display: inline-block;
+  width: 17px;
+  height: 17px;
+  margin-right: 6px;
+  border-radius: 4.5px;
+  vertical-align: -3.5px;
+}
+
+/* A page's own emoji, or the Mac's globe, in the 17 px a site's logo takes. */
+html[data-look="tempo"] .chat-markdown [data-reply-link-emoji] {
+  display: inline-block;
+  width: 17px;
+  margin-right: 6px;
+  font-family: "Apple Color Emoji";
+  font-size: 15px;
+  line-height: 1;
+  text-align: center;
+  vertical-align: -1.5px;
+  user-select: none;
+}
+
+html[data-look="tempo"] .chat-markdown [data-reply-link-mark] {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  color: var(--muted-foreground);
+  vertical-align: -3px;
+  stroke-width: 1.75;
+}
+
+/* A file chip in a reply is a named thing too: its icon in grey and its name in ink, underlined. */
+html[data-look="tempo"] .chat-markdown .chat-markdown-file-link {
+  gap: 5px;
+  color: var(--foreground);
+  font-weight: inherit;
+
+  & [data-slot="context-chip-label"] {
+    text-decoration-line: underline;
+    text-decoration-color: var(--tempo-underline);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 4.5px;
+  }
+
+  &:is(:hover, :focus-visible) [data-slot="context-chip-label"] {
+    text-decoration-color: var(--tempo-underline-hover);
+  }
+}
+
+/* Icons are grey in the tempo look; a file type's color is an inline style on its icon. */
+html[data-look="tempo"]
+  .chat-markdown
+  :is(.chat-markdown-file-link, .chat-markdown-codeblock-header)
+  [data-pierre-icon] {
+  color: var(--muted-foreground) !important;
+}
+
+/* An alert names its kind in its color on the line above its text, with no bar beside it. */
+html[data-look="tempo"] .chat-markdown [role="note"] {
+  & > :first-child {
+    margin-bottom: 0.25rem;
+  }
+
+  & > :first-child + * {
+    margin-top: 0.25rem;
+  }
+}
+
+html[data-look="tempo"] .chat-markdown :not(pre) > code {
+  border: 0;
+  border-radius: 5px;
+  background: var(--code-background);
+  padding: 1.5px 5px;
+  font-size: calc(13.5em / 15.5);
+}
+
+/* A page's preview (PagePreview.tsx), as Messages draws a link: the picture at the size pages share
+   it, then the title and its line; a page with no picture leads with its emoji. */
+html[data-look="tempo"] .chat-markdown a[data-page-preview] {
+  background-image: none;
+}
+
+html[data-look="tempo"] [data-page-preview-picture] {
+  aspect-ratio: 1200 / 630;
+}
+
+html[data-look="tempo"] [data-page-preview-title] {
+  letter-spacing: -0.006em;
+}
+
+html[data-look="tempo"] [data-page-preview-emoji] {
+  flex: none;
+  width: 26px;
+  font-family: "Apple Color Emoji";
+  font-size: 22px;
+  line-height: 1;
+  text-align: center;
+  user-select: none;
+}
+
+html[data-look="tempo"] [data-reply-deliverable-mark] {
+  width: 15px;
+  height: 15px;
+  margin-top: 1.5px;
+  flex: none;
+  color: var(--muted-foreground);
+  stroke-width: 1.75;
+}
+
+/* A file card's lines of its document fade at the card's edge rather than end in an ellipsis. */
+html[data-look="tempo"] [data-reply-preview-line] {
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, #000 calc(100% - 22px), transparent);
+}

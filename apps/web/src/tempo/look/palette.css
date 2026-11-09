@@ -1,0 +1,112 @@
+/*
+ * tempo: the search palette in the tempo look. The same frame holds Go to file and Search project
+ * contents.
+ */
+
+html[data-look="tempo"] [data-slot="command-dialog-backdrop"] {
+  background: rgb(30 30 40 / 14%);
+  backdrop-filter: none;
+
+  @variant dark {
+    background: rgb(0 0 0 / 36%);
+  }
+}
+
+@media (min-width: 640px) {
+  html[data-look="tempo"] [data-slot="command-dialog-viewport"]:has(> [data-command-palette]) {
+    padding-top: 96px;
+  }
+}
+
+html[data-look="tempo"] [data-command-palette] {
+  max-width: 620px;
+  max-height: min(32rem, 100vh - 12rem);
+  border: 0;
+  border-radius: 16px;
+  background: var(--popover);
+  backdrop-filter: none;
+  box-shadow: var(--tempo-shadow-pop);
+}
+
+html[data-look="tempo"] [data-command-palette] [data-slot="command-input"] {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  padding: 0 8px 0 10px;
+  border-bottom: 1px solid var(--border);
+
+  & [data-slot="autocomplete-start-addon"] {
+    padding-inline-start: 5px;
+  }
+
+  & [data-slot="autocomplete-start-addon"] svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  & [data-slot="autocomplete-input"] {
+    font-size: 15.5px;
+  }
+}
+
+html[data-look="tempo"] [data-command-palette] [data-slot="command-group-label"] {
+  padding: 8px 10px 6px;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 500;
+  color: var(--contrast-secondary-label);
+}
+
+html[data-look="tempo"]
+  [data-command-palette]
+  :is([data-slot="command-item"], [data-slot="command-disabled-item"]) {
+  min-height: 38px;
+  gap: 11px;
+  padding: 9px 10px;
+  border-radius: 9px;
+}
+
+html[data-look="tempo"] [data-command-palette] [data-slot="command-item-end"] {
+  font-size: 12.5px;
+}
+
+/* A settled thread reads in grey, as the sidebar's Settled today does, until it is highlighted. */
+html[data-look="tempo"] [data-command-palette] [data-settled]:not([data-active]) {
+  & [data-slot="command-item-icon"] {
+    filter: grayscale(1);
+    opacity: 0.42;
+  }
+
+  & [data-slot="command-item-title"] {
+    color: var(--contrast-secondary-label);
+  }
+
+  & [data-slot="command-item-end"] {
+    color: var(--contrast-tempo-ink-4);
+  }
+}
+
+/* Files dragged over a thread's row go to that thread, as on a sidebar row. */
+html[data-look="tempo"] [data-command-palette] [data-file-drag-over] {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary) 70%, transparent);
+}
+
+html[data-look="tempo"] [data-command-palette] [data-slot="command-shortcut"] {
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* The mockup draws no footer; the key hints stay, quiet, on the list's hairline. */
+html[data-look="tempo"] [data-command-palette] [data-slot="command-footer"] {
+  padding: 9px 16px;
+  border-color: var(--border);
+  background: none;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--contrast-secondary-label);
+
+  & [data-slot="kbd"] {
+    background: var(--tempo-kbd);
+    color: var(--contrast-muted-foreground);
+  }
+}

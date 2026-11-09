@@ -1,0 +1,140 @@
+/*
+ * tempo: the side panel in the tempo look, the mockup's sizes that sit between the type and radius
+ * scales (RightPanelTabs.tsx, tempo/deliverables/DeliverablesPanel.tsx).
+ */
+
+html[data-look="tempo"] [data-panel-tab] {
+  border-radius: 7px;
+  font-size: 13px;
+}
+
+/*
+ * A tab makes room at its end for its close button while that button shows, so the button never
+ * covers the tab's name. A file with an unsaved edit keeps the room for its mark.
+ */
+html[data-look="tempo"]
+  [data-panel-tab]:not([data-page-tab]):is(
+    :hover,
+    :has([data-tab-close]:focus-visible, [data-tab-pending])
+  ) {
+  padding-right: 24px;
+}
+
+/* The new tab button and the panel's own buttons rest in the tabs' grey; the plus in a 7 px corner. */
+html[data-look="tempo"] [data-panel-new-tab] {
+  border-radius: 7px;
+}
+
+html[data-look="tempo"]
+  :is([data-panel-new-tab], [data-right-panel-tabbar] > button):not(
+    :hover,
+    [data-pressed],
+    [data-popup-open]
+  ) {
+  --control-icon-color: currentColor;
+  color: var(--contrast-secondary-label);
+}
+
+/* A page's tab: its 14 px favicon, its title and its close button, 9 and 6 px in from its ends. */
+html[data-look="tempo"] [data-panel-tab][data-page-tab] {
+  max-width: 200px;
+  gap: 7px;
+  padding-inline: 9px 6px;
+}
+
+html[data-look="tempo"] [data-page-tab] button:has(> [data-tab-label]) {
+  gap: 7px;
+}
+
+/*
+ * The page bar under the tabs, 44 px over a hairline: back, forward and reload in the mockup's
+ * 28 px buttons, forward in the faintest ink when there is nothing forward, the address in a
+ * filled pill, and the way out to the default browser (tempo/browser).
+ */
+html[data-look="tempo"] [data-page-bar] {
+  height: 44px;
+  min-height: 44px;
+  margin-bottom: 0;
+  padding-inline: 10px;
+  gap: 2px;
+  border-bottom-color: var(--contrast-border);
+}
+
+html[data-look="tempo"] [data-page-bar] button:not([data-page-open-in-browser]) {
+  --control-icon-color: currentColor;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+
+  &:not(:hover, [data-pressed], [data-popup-open]) {
+    color: var(--contrast-muted-foreground);
+  }
+
+  &:disabled {
+    opacity: 1;
+    color: var(--contrast-tempo-ink-4);
+  }
+
+  & svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 1.75;
+  }
+}
+
+html[data-look="tempo"] [data-page-address] {
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+/* The globe or lock in the address and a page's tab draw in the mockup's 1.75 stroke. */
+html[data-look="tempo"] :is([data-page-address], [data-page-tab]) svg {
+  stroke-width: 1.75;
+}
+
+/* Inside its 1 px clear border, as the mockup's 8 and 10 px. */
+html[data-look="tempo"] [data-page-open-in-browser] {
+  height: 28px;
+  gap: 7px;
+  padding-inline: 7px 9px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+html[data-look="tempo"] :is([data-deliverable-page], [data-deliverable-pull-request]) {
+  border-radius: 10px;
+}
+
+html[data-look="tempo"] [data-deliverable-tile] {
+  border-radius: 7px;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+/* A page with no picture shows its emoji, or the Mac's globe, as text. */
+html[data-look="tempo"] [data-deliverable-emoji] {
+  font-family: "Apple Color Emoji";
+  font-size: 22px;
+  line-height: 1;
+}
+
+html[data-look="tempo"] [data-deliverable-number] {
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+html[data-look="tempo"] [data-deliverable-title] {
+  font-size: 13.5px;
+}
+
+html[data-look="tempo"] :is([data-deliverables-heading], [data-deliverable-detail]) {
+  font-size: 12.5px;
+  line-height: normal;
+}
+
+html[data-look="tempo"] [data-deliverable-detail] {
+  margin-top: 3px;
+}
+
+html[data-look="tempo"] [data-deliverable-state] {
+  font-size: 12px;
+}

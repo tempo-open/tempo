@@ -1,0 +1,107 @@
+/* tempo: the Usage page in the tempo look, from the Tempo design mockup (its usage and limits
+   tabs). Components carry their layout as classes; this file holds the mockup's sizes
+   between Tailwind's steps and the parts drawn by state: the segmented controls, the heat map and
+   the ten block bars. */
+
+/* The Usage page's own sizes, weights and corner; the shared ones are in tokens.css. */
+@theme {
+  --text-tempo-figure: 2.5rem;
+  --font-weight-tempo-book: 450;
+  --font-weight-tempo-number: 560;
+  --radius-tempo-field: 7px;
+}
+
+html[data-look="tempo"] [data-tempo-usage-segmented] {
+  gap: 0;
+  padding: 2px;
+  border-radius: 9px;
+  background-color: var(--accent);
+
+  /* The mockup's buttons keep the browser's letter-spacing, normal (shell.css). */
+  & [data-slot="toggle"] {
+    height: 26px;
+    border-width: 0;
+    padding-inline: 12px;
+    border-radius: 7px;
+    font-size: var(--text-tempo-note);
+    font-weight: 500;
+    letter-spacing: normal;
+    color: var(--contrast-muted-foreground);
+
+    &:hover {
+      background-color: transparent;
+      color: var(--contrast-foreground);
+    }
+
+    &[data-pressed] {
+      background-color: var(--background);
+      color: var(--contrast-foreground);
+      box-shadow:
+        0 1px 2px rgb(0 0 0 / 20%),
+        0 0 0 0.5px var(--contrast-tempo-hair-2);
+    }
+  }
+}
+
+html[data-look="tempo"] [data-tempo-usage-segmented="compact"] [data-slot="toggle"] {
+  padding-inline: 11px;
+}
+
+/* One cell per day; level 0 is a quiet day, 1 to 4 the quartiles of the busy days. */
+html[data-look="tempo"] [data-tempo-heat-level="0"] {
+  background-color: rgb(0 0 0 / 5.5%);
+
+  @variant dark {
+    background-color: rgb(255 255 255 / 6%);
+  }
+}
+
+html[data-look="tempo"] [data-tempo-heat-level="1"] {
+  background-color: color-mix(in srgb, var(--tempo-accent) 26%, transparent);
+}
+
+html[data-look="tempo"] [data-tempo-heat-level="2"] {
+  background-color: color-mix(in srgb, var(--tempo-accent) 46%, transparent);
+}
+
+html[data-look="tempo"] [data-tempo-heat-level="3"] {
+  background-color: color-mix(in srgb, var(--tempo-accent) 70%, transparent);
+}
+
+html[data-look="tempo"] [data-tempo-heat-level="4"] {
+  background-color: var(--tempo-accent);
+}
+
+html[data-look="tempo"] [data-tempo-heat-level][data-busiest] {
+  background-color: #17389e;
+
+  @variant dark {
+    background-color: #a9c4ff;
+  }
+}
+
+/* A day the measure was not recorded, such as agents before they were recorded, is an outline, not a zero. */
+html[data-look="tempo"] [data-tempo-heat-level="none"] {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--contrast-border);
+}
+
+/* Ten blocks per bar, one per ten percent; under 30 percent the lit blocks turn amber. */
+html[data-look="tempo"] [data-tempo-limit-blocks] > span {
+  width: 9px;
+  height: 14px;
+  border-radius: var(--radius-tempo-block);
+  background-color: var(--tempo-seg-off);
+}
+
+html[data-look="tempo"] [data-tempo-limit-blocks] > span[data-on] {
+  background-color: var(--tempo-accent);
+}
+
+html[data-look="tempo"] [data-tempo-limit-blocks][data-low] > span[data-on] {
+  background-color: var(--warning);
+}
+
+html[data-look="tempo"] [data-tempo-rename-field] {
+  box-shadow: inset 0 0 0 1.5px var(--tempo-accent);
+}

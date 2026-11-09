@@ -1,0 +1,33 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowStart" markerWidth="5" markerHeight="5" refX="1.2" refY="2.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M4.5 0.6L1 2.5L4.5 4.4" fill="none" stroke="#DDF7FF" stroke-width="0.8" stroke-linecap="round"/>
+    </marker>
+    <marker id="arrowEnd" markerWidth="5" markerHeight="5" refX="3.8" refY="2.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0.5 0.6L4 2.5L0.5 4.4" fill="none" stroke="#DDF7FF" stroke-width="0.8" stroke-linecap="round"/>
+    </marker>
+  </defs>
+
+  <g stroke="#DDF7FF" stroke-linecap="round" stroke-linejoin="round">
+    <g opacity="0.9" stroke-width="0.44">
+      <path d="M17 13.4V7.8M111 13.4V7.8"/>
+      <path d="M18.4 10.6H109.6" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+      <path d="M13.4 17H7.8M13.4 111H7.8"/>
+      <path d="M10.6 18.4V109.6" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+      <path d="M39.83 114.4V120M90.24 114.4V120"/>
+      <path d="M41.2 117.2H88.87" marker-start="url(#arrowStart)" marker-end="url(#arrowEnd)"/>
+    </g>
+
+    <g opacity="0.58" stroke-width="0.34">
+      <path d="M4 64H124M64 4V124" stroke-dasharray="1.6 1.6"/>
+      <circle cx="64" cy="64" r="51.5"/>
+      <circle cx="64" cy="64" r="1.1"/>
+    </g>
+
+    <g opacity="0.76" stroke-width="0.4">
+      <path d="M24 20V24M22 22H26M101 17V21M99 19H103M114 106V110M112 108H116"/>
+      <path d="M116.5 30.5L119.5 33.5M119.5 30.5L116.5 33.5M5.5 116.5L8.5 119.5M8.5 116.5L5.5 119.5"/>
+      <path d="M118 84H124M121 81V87" stroke-dasharray="0.7 1.1"/>
+    </g>
+  </g>
+</svg>

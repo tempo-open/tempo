@@ -1,0 +1,451 @@
+/*
+ * tempo: a markdown document set the way Notion sets a page (light, 720 px measure,
+ * Notion's own sizes and colors). Shared by the reading card and the HTML copy
+ * opened in the browser, so every rule here stands without the app's styles.
+ */
+[data-tempo-doc] {
+  --doc-ink: rgb(44 44 43);
+  --doc-gray: rgb(125 122 117);
+  --doc-hairline: rgb(44 44 43 / 9%);
+  --doc-rule: rgb(44 44 43 / 14%);
+  --doc-code-bg: rgb(247 246 243);
+  --doc-inline-code-bg: rgb(135 131 120 / 15%);
+  --doc-inline-code-ink: rgb(235 87 87);
+  --doc-callout-bg: rgb(241 241 239);
+  --doc-table-head: rgb(247 246 243);
+  --doc-table-line: rgb(233 233 231);
+  --doc-blue: rgb(35 131 226);
+  --doc-reveal: rgb(255 212 0 / 22%);
+
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 0 auto;
+  color: var(--doc-ink);
+  color-scheme: light;
+  font-family:
+    ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI",
+    Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: normal;
+  overflow-wrap: break-word;
+  text-align: start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-tempo-doc] *,
+[data-tempo-doc] *::before,
+[data-tempo-doc] *::after {
+  box-sizing: inherit;
+}
+
+[data-tempo-doc]
+  :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, figure, table, dl, dd, dt, hr) {
+  margin: 0;
+  padding: 0;
+}
+
+[data-tempo-doc] ::selection {
+  background: rgb(35 131 226 / 28%);
+}
+
+[data-doc-title] {
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding-bottom: 4px;
+}
+
+[data-doc-properties] {
+  display: grid;
+  grid-template-columns: minmax(96px, 160px) 1fr;
+  column-gap: 8px;
+  margin-top: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--doc-hairline);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+[data-doc-property] {
+  display: contents;
+}
+
+[data-doc-properties] dt,
+[data-doc-properties] dd {
+  padding: 6px 0;
+}
+
+[data-doc-properties] dt {
+  color: var(--doc-gray);
+}
+
+[data-doc-body] {
+  padding-top: 10px;
+}
+
+[data-doc-body] > :first-child {
+  padding-top: 0;
+}
+
+[data-tempo-doc] p {
+  padding: 8px 0;
+}
+
+[data-tempo-doc] h1,
+[data-tempo-doc] h2,
+[data-tempo-doc] h3,
+[data-tempo-doc] h4,
+[data-tempo-doc] h5,
+[data-tempo-doc] h6 {
+  font-weight: 600;
+  scroll-margin-top: 24px;
+}
+
+[data-tempo-doc] h1 {
+  font-size: 30px;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  padding: 32px 0 8px;
+}
+
+[data-tempo-doc] h2 {
+  font-size: 24px;
+  line-height: 1.3;
+  padding: 28px 0 8px;
+}
+
+[data-tempo-doc] h3 {
+  font-size: 20px;
+  line-height: 1.3;
+  padding: 22px 0 6px;
+}
+
+[data-tempo-doc] :is(h4, h5, h6) {
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 16px 0 4px;
+}
+
+[data-tempo-doc] strong {
+  font-weight: 600;
+}
+
+[data-tempo-doc] del {
+  text-decoration-color: rgb(44 44 43 / 45%);
+}
+
+[data-tempo-doc] a {
+  color: inherit;
+  opacity: 0.72;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  text-decoration-color: rgb(44 44 43 / 40%);
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+
+[data-tempo-doc] a:hover {
+  opacity: 1;
+}
+
+[data-tempo-doc] :not(pre) > code {
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  background: var(--doc-inline-code-bg);
+  color: var(--doc-inline-code-ink);
+  font-family:
+    ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono",
+    Courier, monospace;
+  font-size: 85%;
+  line-height: normal;
+  overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+[data-tempo-doc] :is(ul, ol) {
+  padding: 3px 0 3px 26px;
+}
+
+[data-tempo-doc] li {
+  position: relative;
+  padding: 5px 0;
+}
+
+[data-tempo-doc] li > :is(ul, ol) {
+  padding-top: 5px;
+  padding-bottom: 0;
+}
+
+[data-tempo-doc] li > p {
+  padding: 0;
+}
+
+[data-tempo-doc] li > p + p {
+  padding-top: 8px;
+}
+
+[data-tempo-doc] ul > li {
+  list-style: none;
+}
+
+[data-tempo-doc] ul > li::before {
+  content: "•";
+  position: absolute;
+  left: -25px;
+  top: 5px;
+  width: 24px;
+  font-family: Arial, sans-serif;
+  font-size: 1.5em;
+  line-height: 16px;
+  text-align: center;
+  padding-top: 4px;
+}
+
+[data-tempo-doc] ul ul > li::before {
+  content: "◦";
+}
+
+[data-tempo-doc] ul ul ul > li::before {
+  content: "▪";
+  font-size: 1.1em;
+  padding-top: 5px;
+}
+
+[data-tempo-doc] ol > li {
+  list-style: decimal;
+  padding-left: 2px;
+}
+
+[data-tempo-doc] ol > li::marker {
+  font-variant-numeric: tabular-nums;
+}
+
+[data-tempo-doc] ol ol > li {
+  list-style-type: lower-alpha;
+}
+
+[data-tempo-doc] ol ol ol > li {
+  list-style-type: lower-roman;
+}
+
+[data-tempo-doc] ul > li[data-doc-task]::before {
+  content: none;
+}
+
+[data-doc-check] {
+  position: absolute;
+  left: -24px;
+  top: 9px;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgb(44 44 43 / 85%);
+  border-radius: 3px;
+}
+
+[data-doc-task][data-checked="true"] > [data-doc-check] {
+  border: none;
+  background: var(--doc-blue)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.3l2.6 2.6L12 5.4' fill='none' stroke='white' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 16px 16px no-repeat;
+}
+
+[data-doc-task][data-checked="true"] {
+  color: var(--doc-gray);
+  text-decoration: line-through;
+  text-decoration-color: rgb(125 122 117 / 50%);
+}
+
+[data-tempo-doc] blockquote {
+  margin: 8px 0;
+  padding: 0 14px;
+  border-left: 3px solid currentColor;
+}
+
+[data-tempo-doc] blockquote > :is(p, ul, ol) {
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+[data-doc-callout] {
+  margin: 8px 0;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--doc-callout-bg);
+}
+
+[data-doc-callout] > p {
+  padding: 2px 0;
+}
+
+[data-doc-callout]::before {
+  content: attr(data-label);
+  display: block;
+  padding-bottom: 2px;
+  font-weight: 600;
+}
+
+[data-tempo-doc] hr {
+  height: 0;
+  margin: 15px 0;
+  border: none;
+  border-top: 1px solid var(--doc-rule);
+}
+
+[data-doc-code] {
+  position: relative;
+  margin: 8px 0;
+  border-radius: 10px;
+  background: var(--doc-code-bg);
+}
+
+[data-doc-code-lang] {
+  position: absolute;
+  top: 10px;
+  left: 16px;
+  color: var(--doc-gray);
+  font-size: 12px;
+  line-height: 16px;
+  user-select: none;
+}
+
+[data-doc-code] pre,
+[data-doc-code] pre.shiki {
+  margin: 0;
+  padding: 16px;
+  background: transparent !important;
+  color: var(--doc-ink);
+  font-family:
+    ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono",
+    Courier, monospace;
+  font-size: 13.6px;
+  line-height: 1.5;
+  tab-size: 2;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+[data-doc-code][data-language] pre {
+  padding-top: 34px;
+}
+
+[data-doc-code] pre code {
+  font: inherit;
+  background: none;
+  color: inherit;
+  padding: 0;
+}
+
+[data-doc-code-copy] {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  padding: 3px 8px;
+  border: none;
+  border-radius: 6px;
+  background: rgb(255 255 255 / 85%);
+  color: var(--doc-gray);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity 120ms ease,
+    color 120ms ease;
+}
+
+[data-doc-code]:hover [data-doc-code-copy],
+[data-doc-code-copy]:focus-visible {
+  opacity: 1;
+}
+
+[data-doc-code-copy]:hover {
+  color: var(--doc-ink);
+}
+
+[data-doc-code-copy]:active {
+  transform: scale(0.97);
+}
+
+[data-doc-table] {
+  margin: 8px 0;
+  overflow-x: auto;
+}
+
+[data-tempo-doc] table {
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+[data-tempo-doc] :is(th, td) {
+  min-width: 120px;
+  max-width: 360px;
+  padding: 7px 9px;
+  border: 1px solid var(--doc-table-line);
+  text-align: start;
+  vertical-align: top;
+}
+
+[data-tempo-doc] th {
+  background: var(--doc-table-head);
+  font-weight: 600;
+}
+
+[data-tempo-doc] img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 8px 0;
+  border-radius: 4px;
+}
+
+[data-tempo-doc] .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* GFM's back arrow renders as an emoji on macOS; a reader does not need it. */
+[data-tempo-doc] [data-footnote-backref] {
+  display: none;
+}
+
+[data-tempo-doc] .footnotes {
+  margin-top: 24px;
+  padding-top: 8px;
+  border-top: 1px solid var(--doc-rule);
+  color: var(--doc-gray);
+  font-size: 14px;
+}
+
+[data-tempo-doc] [data-revealed] {
+  border-radius: 4px;
+  animation: tempo-doc-reveal 2.4s ease-out 1;
+}
+
+@keyframes tempo-doc-reveal {
+  0%,
+  35% {
+    background: var(--doc-reveal);
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-tempo-doc] [data-revealed] {
+    animation-duration: 0.01s;
+  }
+}
